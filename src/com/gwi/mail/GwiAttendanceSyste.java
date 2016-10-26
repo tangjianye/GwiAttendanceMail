@@ -1,5 +1,6 @@
 package com.gwi.mail;
 
+import com.gwi.mail.config.GwiConfigs;
 import com.gwi.mail.mail.MailManager;
 import com.gwi.mail.parse.ParseManager;
 
@@ -20,7 +21,7 @@ public class GwiAttendanceSyste {
                 for (Map.Entry<String, String> entry : hashMap.entrySet()) {
                     System.out.println("Email:" + entry.getKey() + " Content:" + entry.getValue());
                     String email = MailManager.getInstance().creatGwiMail(entry.getKey());
-                    String content = "Abnormal attendance list: " + entry.getValue();
+                    String content = GwiConfigs.MAIL_CONTENT + entry.getValue();
                     try {
                         MailManager.getInstance().sendMimeMail(email, content);
                     } catch (Exception e) {
