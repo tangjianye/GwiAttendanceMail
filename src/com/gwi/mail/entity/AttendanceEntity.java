@@ -1,9 +1,9 @@
-package com.gwi.mail.bean;
+package com.gwi.mail.entity;
 
 /**
  * Created by Administrator on 2016-10-25.
  */
-public class AttendanceBean {
+public class AttendanceEntity {
     // 工号
     private String jobNumber;
     // 打卡时间

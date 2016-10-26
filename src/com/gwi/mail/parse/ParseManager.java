@@ -1,7 +1,7 @@
 package com.gwi.mail.parse;
 
-import com.gwi.mail.bean.AttendanceBean;
-import com.gwi.mail.config.GwiConfigs;
+import com.gwi.mail.entity.AttendanceEntity;
+import com.gwi.mail.constant.GwiConfigs;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,7 +19,7 @@ import java.util.Locale;
  */
 public class ParseManager {
     private static final String ENCODING = "GBK";
-    private ArrayList<AttendanceBean> mParseList;
+    private ArrayList<AttendanceEntity> mParseList;
     private HashMap<String, String> mHashMap;
 
     private static ParseManager ourInstance = new ParseManager();
@@ -78,7 +78,7 @@ public class ParseManager {
                 String lineTxt = null;
                 while ((lineTxt = bufferedReader.readLine()) != null) {
                     System.out.println(lineTxt);
-                    AttendanceBean bean = parseStr(lineTxt);
+                    AttendanceEntity bean = parseStr(lineTxt);
                     if (null != bean) {
                         mParseList.add(bean);
                     }
@@ -93,11 +93,11 @@ public class ParseManager {
         }
     }
 
-    private AttendanceBean parseStr(String str) {
+    private AttendanceEntity parseStr(String str) {
         if (null == str) {
             return null;
         }
-        AttendanceBean bean = new AttendanceBean();
+        AttendanceEntity bean = new AttendanceEntity();
         String strr = str.trim();
         String[] abc = strr.split("\\t");
         bean.setJobNumber(abc[0]);
@@ -130,19 +130,19 @@ public class ParseManager {
         final Date MORNING = getParseTime(GwiConfigs.WorkTime.MORNING);
         final Date AFTERNOON = getParseTime(GwiConfigs.WorkTime.AFTERNOON);
 
-        for (AttendanceBean attendanceBean : mParseList) {
-            Date date = getParseDate(attendanceBean.getClock());
+        for (AttendanceEntity entity : mParseList) {
+            Date date = getParseDate(entity.getClock());
 
             // 打卡异常的员工
             if (date.after(MORNING) && date.before(AFTERNOON)) {
                 // 有过打卡异常
                 StringBuffer sb = new StringBuffer();
-                sb.append(attendanceBean.getClock());
-                if (mHashMap.containsKey(attendanceBean.getJobNumber())) {
-                    String clock = mHashMap.get(attendanceBean.getJobNumber());
-                    sb.append("    ").append(clock).append("    ").append(attendanceBean.getClock());
+                sb.append(entity.getClock());
+                if (mHashMap.containsKey(entity.getJobNumber())) {
+                    String clock = mHashMap.get(entity.getJobNumber());
+                    sb.append("    ").append(clock).append("    ").append(entity.getClock());
                 }
-                mHashMap.put(attendanceBean.getJobNumber(), sb.toString());
+                mHashMap.put(entity.getJobNumber(), sb.toString());
             }
         }
         return mHashMap;

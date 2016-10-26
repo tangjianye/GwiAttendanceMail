@@ -1,6 +1,6 @@
 package com.gwi.mail.mail;
 
-import com.gwi.mail.config.GwiConfigs;
+import com.gwi.mail.constant.GwiConfigs;
 
 import java.util.Date;
 import java.util.Properties;
